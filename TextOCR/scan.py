@@ -9,7 +9,7 @@ from numpy.lib.shape_base import tile
 
 # 一个简单的图像显示函数
 def cv_show(name,scr,waitkey = 0):
-    cv2.imshow(str(name),scr)
+    cv2.imshow(name,scr)
     cv2.waitKey(waitkey)
     cv2.destroyAllWindows()
 
@@ -82,7 +82,7 @@ def  angle_transform(img, degree, Crop=False, color = (0,0,0)):
      borderMode=cv2.BORDER_CONSTANT, borderValue=color)
 
 img_origin = cv2.imread('Images/img1.jpg')
-
+cv_show('jkildjfd',img_origin,10)
 ratio = img_origin.shape[0]/500.0
 orig = img_origin.copy()
 
@@ -99,7 +99,7 @@ gray = cv2.GaussianBlur(image,(7,7),0)
 edged = cv2.Canny(gray, 75, 100) 
 
 # 图片的所有轮廓存储在一条列表中
-cnts = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[0]
+cnts = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[1]
 # 将轮廓按体积从大到小排列 取前5个轮廓
 cnts = sorted(cnts,key = lambda x: cv2.arcLength(x, True), reverse=True)[1:5]
 # 遍历轮廓
@@ -113,13 +113,14 @@ for i in cnts:
 warped = four_point_transform(orig, approx.reshape(4,2))#*ratio)
 # 将图像顺时针旋转90°
 warped = angle_transform(warped,90)
-
+cv_show('hh',warped)
 # 二值处理
 img =cv2.cvtColor(warped,cv2.COLOR_BGR2GRAY)
 # 自适应均衡化
 clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4,4))
 # 应用于图片中
 ref = clahe.apply(img)
+cv_show('hh',ref)
 text = pytesseract.image_to_string(ref)
 print(text)
 

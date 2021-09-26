@@ -25,7 +25,7 @@ template    = cv2.imread('image/number.jpg')
 # 转换为二值图片
 Binary_template = cv2.threshold(template0, 10 , 255 , cv2.THRESH_BINARY_INV)[1]
 # 获取轮廓参数
-contours, hierarchy = cv2.findContours(Binary_template.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+binary, contours, hierarchy = cv2.findContours(Binary_template.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 # 画出轮廓
 template_contours = cv2.drawContours(template.copy(),contours,-1,(0, 0, 255),2)
 # 轮廓排序  将轮廓从左到右依次排序
@@ -81,7 +81,7 @@ img1 = cv2.threshold(img1,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 #cv_show('thresh Image',thresh)
 
 # 获取大致轮廓
-img1_contours = cv2.findContours(img1.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
+img1_contours = cv2.findContours(img1.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[1]
 img2 = cv2.drawContours(img_oringe.copy(),img1_contours,-1,(0,0,255),2)
 
 
@@ -114,7 +114,7 @@ for (i,((x, y, w, h))) in enumerate(locs):
     # 阈值处理 二值化
     group = cv2.threshold(group,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
     # 获取轮廓信息
-    group_contours = cv2.findContours(group.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
+    group_contours = cv2.findContours(group.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[1]
     # 轮廓排序
     group_contours = ctrs.sort_contours(group_contours,method ='left-to-right')[0] 
 
